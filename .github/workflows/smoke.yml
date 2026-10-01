@@ -1,0 +1,39 @@
+name: Production smoke
+
+on:
+  schedule:
+    - cron: '37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Apex is served and www redirects to it
+        run: |
+          curl -fsS --retry 3 --retry-all-errors -o /dev/null https://deviego.xyz/
+          location=$(curl -s -o /dev/null -w '%{redirect_url}' https://www.deviego.xyz/)
+          test "$location" = "https://deviego.xyz/" || { echo "www redirected to '$location'"; exit 1; }
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Site checks against production
+        run: npm run test:e2e
+        env:
+          E2E_BASE_URL: https://deviego.xyz
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: smoke-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

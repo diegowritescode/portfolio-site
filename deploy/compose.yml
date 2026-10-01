@@ -1,0 +1,36 @@
+name: portfolio-site
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: '3'
+
+services:
+  web:
+    image: ghcr.io/diegowritescode/portfolio-site:${SITE_IMAGE_TAG:?set SITE_IMAGE_TAG in deploy/.env}
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 64m
+    logging: *logging
+    networks: [edge]
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=edge
+      - traefik.http.routers.portfolio-site.rule=Host(`${SITE_HOST:?set SITE_HOST in deploy/.env}`) || Host(`www.${SITE_HOST}`)
+      - traefik.http.routers.portfolio-site.entrypoints=websecure
+      - traefik.http.routers.portfolio-site.tls.certresolver=le
+      - traefik.http.routers.portfolio-site.middlewares=portfolio-site-www
+      - traefik.http.middlewares.portfolio-site-www.redirectregex.regex=^https://www\.(.+)
+      - traefik.http.middlewares.portfolio-site-www.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.portfolio-site-www.redirectregex.permanent=true
+      - traefik.http.services.portfolio-site.loadbalancer.server.port=8080
+
+networks:
+  edge:
+    external: true
+    name: edge
