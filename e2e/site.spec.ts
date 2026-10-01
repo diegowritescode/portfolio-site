@@ -102,6 +102,7 @@ test('serves security headers and a cache policy per asset type', async ({ page,
   expect(headers['x-content-type-options']).toBe('nosniff');
   expect(headers['referrer-policy']).toBe('strict-origin-when-cross-origin');
   expect(headers['cache-control']).toBe('no-cache');
+  expect(headers['strict-transport-security']).toBe('max-age=31536000; includeSubDomains');
 
   await page.goto('/');
   const script = await page.locator('script[src*="/_next/static/"]').first().getAttribute('src');

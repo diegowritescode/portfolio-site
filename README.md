@@ -19,7 +19,8 @@ next.
   a 64 MB memory limit. It uses about 8 MB.
 - **Headers set by the origin.** nginx sends a Content-Security-Policy that allows only same-origin
   resources (no third-party scripts, fonts or images), `nosniff`, a strict referrer policy and
-  `frame-ancestors 'none'`. Hashed build assets under `/_next/static/` are cached for a year as
+  `frame-ancestors 'none'`, plus HSTS for the apex and its subdomains (every `deviego.xyz` host is
+  served over TLS by Traefik). Hashed build assets under `/_next/static/` are cached for a year as
   `immutable`; HTML is `no-cache`, so a deploy is visible at once.
 - **Content is data.** Every claim on the page lives in [`src/content.ts`](src/content.ts), typed,
   and each number is taken from the linked repository's README.
