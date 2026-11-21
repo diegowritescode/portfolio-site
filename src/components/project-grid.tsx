@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useCallback, useEffect, useState } from 'react';
 import { type Project, projects, ui } from '@/content';
 import { useLang } from '@/lang';
-import { ArrowUpRightIcon } from './icons';
+import { ArrowUpRightIcon, TrophyIcon } from './icons';
 
 /**
  * The grid, three across as a profile is. A project with screenshots shows
@@ -54,60 +54,18 @@ export function ProjectGrid() {
   return (
     <>
       <ul className="grid grid-cols-3 gap-1 md:gap-2">
-        {projects.map((project) => {
-          const cover = project.shots?.[0];
-          const lead = project.metrics[0];
-          return (
-            <li key={project.id}>
-              <button
-                type="button"
-                onClick={() => setOpen(project.id)}
-                aria-label={`${t(ui.openProject)}: ${project.name}`}
-                className="tile block w-full"
-              >
-                {cover ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={cover.src}
-                    alt={t(cover.alt)}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover object-top"
-                  />
-                ) : (
-                  // No screenshot: the headline number carries the tile.
-                  <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-surface-2 p-3 text-center">
-                    <span className="text-[clamp(1.1rem,4vw,2.2rem)] leading-none font-semibold tracking-tight text-fg tabular-nums">
-                      {lead?.value}
-                    </span>
-                    <span className="line-clamp-2 text-[10px] leading-tight text-muted sm:text-xs">
-                      {lead ? t(lead.label) : null}
-                    </span>
-                  </span>
-                )}
-
-                {/* The hover plate, carrying this project's numbers. */}
-                <span className="tile-overlay px-2">
-                  <span className="flex flex-col items-center gap-0.5">
-                    <span className="text-sm font-semibold sm:text-base">{project.name}</span>
-                    <span className="hidden text-[11px] opacity-85 sm:block">
-                      {t(project.kind)}
-                    </span>
-                  </span>
-                </span>
-
-                {project.award ? (
-                  <span
-                    aria-hidden="true"
-                    className="absolute top-1.5 right-1.5 text-sm text-award drop-shadow sm:top-2 sm:right-2"
-                  >
-                    ★
-                  </span>
-                ) : null}
-              </button>
-            </li>
-          );
-        })}
+        {projects.map((project) => (
+          <li key={project.id}>
+            <button
+              type="button"
+              onClick={() => setOpen(project.id)}
+              aria-label={`${t(ui.openProject)}: ${project.name}`}
+              className="tile group block w-full text-left"
+            >
+              <ProjectTile project={project} />
+            </button>
+          </li>
+        ))}
       </ul>
 
       <AnimatePresence>
@@ -137,6 +95,76 @@ export function ProjectGrid() {
         ) : null}
       </AnimatePresence>
     </>
+  );
+}
+
+/**
+ * One tile, composed rather than cropped: the project's own colour, its
+ * name, its headline number, and — when it has one — the real screenshot
+ * sitting at the bottom like a device on a desk. A raw screenshot scaled
+ * into a 320px square is unreadable, so the tile carries the meaning and
+ * the screenshot only has to suggest the product.
+ */
+function ProjectTile({ project }: { project: Project }) {
+  const { t } = useLang();
+  const cover = project.shots?.[0];
+  const lead = project.metrics[0];
+
+  return (
+    <span
+      className="absolute inset-0 flex flex-col overflow-hidden"
+      style={{
+        background: `linear-gradient(155deg, ${project.tint}1f 0%, ${project.tint}0a 45%, transparent 100%), var(--color-surface-2)`,
+      }}
+    >
+      {/* The text block, always legible whatever the screenshot looks like. */}
+      <span className="relative z-10 flex flex-col gap-1 p-3 sm:p-4">
+        <span className="flex items-center gap-1.5">
+          <span
+            aria-hidden="true"
+            className="h-2 w-2 shrink-0 rounded-full"
+            style={{ backgroundColor: project.tint }}
+          />
+          <span className="truncate text-[11px] font-semibold tracking-[0.1em] text-muted uppercase sm:text-[12px]">
+            {project.name}
+          </span>
+          {project.award ? (
+            <TrophyIcon className="ml-auto h-3.5 w-3.5 shrink-0 text-award" />
+          ) : null}
+        </span>
+
+        <span className="text-[clamp(1.1rem,3.4vw,1.9rem)] leading-none font-semibold tracking-tight text-fg tabular-nums">
+          {lead?.value}
+        </span>
+        <span className="line-clamp-2 text-[10px] leading-tight text-muted sm:text-[11px]">
+          {lead ? t(lead.label) : null}
+        </span>
+      </span>
+
+      {/* The screenshot, held at the bottom and scaled so the product is
+          recognisable as a shape rather than read as text. */}
+      {cover ? (
+        <span className="relative mt-auto block h-[52%] w-[84%] self-center overflow-hidden rounded-t-md border border-b-0 border-line/80 bg-page shadow-[0_-2px_14px_-4px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover:-translate-y-0.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={cover.src}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover object-top"
+          />
+        </span>
+      ) : null}
+
+      {/* The hover plate. */}
+      <span className="tile-overlay z-20 px-3">
+        <span className="flex flex-col items-center gap-0.5 text-center">
+          <span className="text-sm font-semibold sm:text-base">{project.name}</span>
+          <span className="hidden text-[11px] opacity-85 sm:block">{t(project.kind)}</span>
+        </span>
+      </span>
+    </span>
   );
 }
 

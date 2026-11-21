@@ -1,37 +1,35 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  contact,
-  EMAIL,
-  GITHUB,
-  LINKEDIN,
-  practices,
-  profile,
-  roadmap,
-  roadmapStatusLabel,
-  type RoadmapStatus,
-  ui,
-} from '@/content';
+import { about, contact, EMAIL, GITHUB, LINKEDIN, profile, ui } from '@/content';
 import { useLang } from '@/lang';
 import { ExperienceTimeline } from '@/components/experience-timeline';
 import { HighlightsRail } from '@/components/highlights-rail';
 import { LangSwitch } from '@/components/lang-switch';
-import { MailIcon } from '@/components/icons';
+import {
+  ApproachIcon,
+  BriefcaseIcon,
+  GridIcon,
+  MailIcon,
+  MountainIcon,
+  PersonIcon,
+  StackIcon,
+} from '@/components/icons';
 import { ProfileHeader } from '@/components/profile-header';
 import { ProjectGrid } from '@/components/project-grid';
 import { ThemeToggle } from '@/components/theme-toggle';
 
-const statusStyles: Record<RoadmapStatus, string> = {
-  Live: 'bg-surface-2 text-live',
-  Next: 'bg-surface-2 text-award',
-  Planned: 'bg-surface-2 text-muted',
+/** One icon per block of the personal section. */
+const ABOUT_ICONS: Record<string, (props: { className?: string }) => React.ReactElement> = {
+  mountain: MountainIcon,
+  approach: ApproachIcon,
+  stack: StackIcon,
+  person: PersonIcon,
 };
 
 type Tab = 'projects' | 'experience' | 'about';
 
 const copy = {
-  roadmapTitle: { en: 'What comes next', es: 'Qué sigue' },
   footerNote: {
     en: 'Static site served by nginx behind Traefik.',
     es: 'Sitio estático servido por nginx detrás de Traefik.',
@@ -43,10 +41,14 @@ export default function Page() {
   const { t } = useLang();
   const [tab, setTab] = useState<Tab>('projects');
 
-  const tabs: readonly { readonly id: Tab; readonly label: string; readonly glyph: string }[] = [
-    { id: 'projects', label: t(ui.tabProjects), glyph: '▦' },
-    { id: 'experience', label: t(ui.tabExperience), glyph: '▤' },
-    { id: 'about', label: t(ui.tabAbout), glyph: '☰' },
+  const tabs: readonly {
+    readonly id: Tab;
+    readonly label: string;
+    readonly Icon: (props: { className?: string }) => React.ReactElement;
+  }[] = [
+    { id: 'projects', label: t(ui.tabProjects), Icon: GridIcon },
+    { id: 'experience', label: t(ui.tabExperience), Icon: BriefcaseIcon },
+    { id: 'about', label: t(ui.tabAbout), Icon: PersonIcon },
   ];
 
   return (
@@ -83,19 +85,20 @@ export default function Page() {
                   role="tab"
                   type="button"
                   aria-selected={selected}
+                  // The label is hidden on a phone, so the name is given here.
+                  aria-label={item.label}
                   aria-controls={`panel-${item.id}`}
                   id={`tab-${item.id}`}
                   onClick={() => setTab(item.id)}
-                  className={`-mt-px flex items-center gap-1.5 border-t px-3 py-3.5 text-xs font-semibold tracking-[0.08em] uppercase transition-colors ${
+                  className={`-mt-px flex flex-1 items-center justify-center gap-1.5 border-t px-3 py-3 text-xs font-semibold tracking-[0.08em] uppercase transition-colors md:flex-none md:py-3.5 ${
                     selected
                       ? 'border-fg text-fg'
                       : 'border-transparent text-muted hover:text-fg-dim'
                   }`}
                 >
-                  <span aria-hidden="true" className="text-sm">
-                    {item.glyph}
-                  </span>
-                  {item.label}
+                  <item.Icon className="h-[22px] w-[22px] md:h-[13px] md:w-[13px]" />
+                  {/* The app shows icons only on a phone, labels on desktop. */}
+                  <span className="hidden md:inline">{item.label}</span>
                 </button>
               );
             })}
@@ -125,43 +128,35 @@ export default function Page() {
               role="tabpanel"
               id="panel-about"
               aria-labelledby="tab-about"
-              className="space-y-10 px-3 py-6 sm:px-6"
+              className="mx-auto max-w-2xl space-y-9 px-4 py-8 sm:px-6"
             >
-              <section className="space-y-5">
-                {practices.map((practice) => (
-                  <article key={practice.title.en}>
-                    <h2 className="text-sm font-semibold text-fg">{t(practice.title)}</h2>
-                    <p className="mt-1.5 text-sm leading-relaxed text-fg-dim">
-                      {t(practice.body)}
-                    </p>
-                  </article>
-                ))}
-              </section>
-
               <section>
-                <h2 className="text-sm font-semibold text-fg">{t(copy.roadmapTitle)}</h2>
-                <ul className="mt-3 space-y-2.5">
-                  {roadmap.map((item) => (
-                    <li key={item.name} className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${statusStyles[item.status]}`}
-                      >
-                        {t(roadmapStatusLabel[item.status])}
-                      </span>
-                      <span className="text-sm font-semibold text-fg">{item.name}</span>
-                      <span className="w-full text-sm leading-relaxed text-fg-dim sm:w-auto sm:flex-1">
-                        {t(item.body)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <h2 className="text-xl font-semibold tracking-tight text-fg sm:text-2xl">
+                  {t(about.heading)}
+                </h2>
+                <p className="mt-3 text-[15px] leading-relaxed text-fg-dim">{t(about.lead)}</p>
               </section>
 
-              <section id="contact">
-                <h2 className="text-sm font-semibold text-fg">{t(contact.heading)}</h2>
-                <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-fg-dim">
-                  {t(contact.body)}
-                </p>
+              {about.blocks.map((block) => {
+                const Icon = ABOUT_ICONS[block.icon] ?? PersonIcon;
+                return (
+                  <section key={block.title.en} className="flex gap-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-2 text-muted">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="text-[15px] font-semibold text-fg">{t(block.title)}</h3>
+                      <p className="mt-1.5 text-[15px] leading-relaxed text-fg-dim">
+                        {t(block.body)}
+                      </p>
+                    </div>
+                  </section>
+                );
+              })}
+
+              <section id="contact" className="border-t border-line pt-7">
+                <h2 className="text-[15px] font-semibold text-fg">{t(contact.heading)}</h2>
+                <p className="mt-1.5 text-[15px] leading-relaxed text-fg-dim">{t(contact.body)}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <a
                     href={`mailto:${EMAIL}`}

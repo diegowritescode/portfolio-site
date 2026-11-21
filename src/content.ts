@@ -45,14 +45,16 @@ export const profile = {
   /** The bio, as the few stacked lines a profile shows under the name. */
   bio: {
     en: [
-      'Backend and full stack. Node.js, NestJS, TypeScript, PostgreSQL.',
-      'A regulated bank, a multi-tenant SaaS I run alone, products that shipped.',
-      'AI inside the product, and agents inside how I build it.',
+      'I build systems that handle money, identity and real customers — and I keep them running.',
+      'Backend and full stack: Node.js · NestJS · TypeScript · PostgreSQL · React · AWS',
+      'Shipped inside a regulated bank. Today I run a multi-tenant SaaS on my own, end to end.',
+      'AI inside the product, and AI agents inside how I build it.',
     ],
     es: [
-      'Backend y full stack. Node.js, NestJS, TypeScript, PostgreSQL.',
-      'Un banco regulado, un SaaS multi-tenant que opero solo, productos que salieron.',
-      'IA dentro del producto, y agentes dentro de cómo lo construyo.',
+      'Construyo sistemas que manejan dinero, identidad y clientes reales — y los mantengo andando.',
+      'Backend y full stack: Node.js · NestJS · TypeScript · PostgreSQL · React · AWS',
+      'Entregué dentro de un banco regulado. Hoy opero un SaaS multi-tenant solo, de punta a punta.',
+      'IA dentro del producto, y agentes de IA dentro de cómo lo construyo.',
     ],
   },
   /** The three counters in the profile header. */
@@ -114,14 +116,56 @@ export type HighlightId = 'stack' | 'approach' | 'experience' | 'awards' | 'cv';
 export const highlights: readonly {
   readonly id: HighlightId;
   readonly label: I18n;
-  readonly glyph: string;
 }[] = [
-  { id: 'stack', label: { en: 'Stack', es: 'Stack' }, glyph: '⬡' },
-  { id: 'approach', label: { en: 'Approach', es: 'Método' }, glyph: '◈' },
-  { id: 'experience', label: { en: 'Work', es: 'Trabajo' }, glyph: '▤' },
-  { id: 'awards', label: { en: 'Awards', es: 'Premios' }, glyph: '★' },
-  { id: 'cv', label: { en: 'CV', es: 'CV' }, glyph: '↓' },
+  { id: 'stack', label: { en: 'Stack', es: 'Stack' } },
+  { id: 'approach', label: { en: 'Approach', es: 'Método' } },
+  { id: 'experience', label: { en: 'Work', es: 'Trabajo' } },
+  { id: 'awards', label: { en: 'Awards', es: 'Premios' } },
+  { id: 'cv', label: { en: 'CV', es: 'CV' } },
 ];
+
+/** The personal section: Diego, not the CV. */
+export const about = {
+  heading: { en: 'Hey, I am Diego', es: 'Hola, soy Diego' },
+  lead: {
+    en: 'I am a software engineer in Medellín, Colombia. I like problems where being almost right is not good enough: money that has to balance, permissions that have to hold, an order that has to reach the right kitchen.',
+    es: 'Soy ingeniero de software en Medellín, Colombia. Me gustan los problemas donde estar casi bien no alcanza: plata que tiene que cuadrar, permisos que tienen que aguantar, un pedido que tiene que llegar a la cocina correcta.',
+  },
+  blocks: [
+    {
+      icon: 'mountain',
+      title: { en: 'I walk 45 kilometres to log off', es: 'Camino 45 kilómetros para desconectarme' },
+      body: {
+        en: 'Long-distance hiking is my way out of the network. Full-day routes, no signal, nothing to refresh. It is the only place where a problem cannot be solved by typing faster, and most of what I have figured out about a stuck system, I figured out somewhere around kilometre thirty.',
+        es: 'El senderismo de larga distancia es mi salida de la red. Rutas de día entero, sin señal, nada que refrescar. Es el único lugar donde un problema no se resuelve escribiendo más rápido, y la mayoría de lo que he entendido sobre un sistema atascado, lo entendí por ahí en el kilómetro treinta.',
+      },
+    },
+    {
+      icon: 'approach',
+      title: { en: 'The trail taught me how I work', es: 'La montaña me enseñó cómo trabajo' },
+      body: {
+        en: 'A long route is not about speed, it is about pace you can hold and knowing the way back. I build the same way: write down the decision and what it costs, make the tests able to fail, and never ship something I could not operate at two in the morning. Nothing I have put in production has been a sprint.',
+        es: 'Una ruta larga no se trata de velocidad, se trata de un ritmo que puedas sostener y de saber volver. Construyo igual: dejo escrita la decisión y lo que cuesta, hago que las pruebas puedan fallar, y no despliego algo que no pueda operar a las dos de la mañana. Nada de lo que he puesto en producción ha sido un sprint.',
+      },
+    },
+    {
+      icon: 'stack',
+      title: { en: 'I build the tools I work with', es: 'Construyo las herramientas con las que trabajo' },
+      body: {
+        en: 'One engineer maintaining two products in production only works if the tooling carries part of the weight. So I built mine: a custom MCP server over my own codebase, subagents and hooks that handle generation, review and documentation. I direct them and review their output like a colleague pull request.',
+        es: 'Un solo ingeniero manteniendo dos productos en producción solo funciona si las herramientas cargan parte del peso. Así que construí las mías: un servidor MCP propio sobre mi código, subagentes y hooks que se encargan de generación, revisión y documentación. Los dirijo y reviso su salida como un pull request de un compañero.',
+      },
+    },
+    {
+      icon: 'person',
+      title: { en: 'Where I am going', es: 'Para dónde voy' },
+      body: {
+        en: 'I am learning English every day and preparing the AWS Solutions Architect certification, because I want to work with teams beyond Colombia and grow toward architecture. I am looking for a team that ships to real users and cares whether the thing still works on Monday.',
+        es: 'Estudio inglés todos los días y preparo la certificación AWS Solutions Architect, porque quiero trabajar con equipos fuera de Colombia y crecer hacia arquitectura. Busco un equipo que le entregue a usuarios reales y al que le importe si la cosa sigue funcionando el lunes.',
+      },
+    },
+  ],
+} as const;
 
 /** The stack, grouped the way the highlight panel shows it. */
 export const stackGroups: readonly {
@@ -175,6 +219,8 @@ export interface Shot {
 export interface Project {
   readonly id: string;
   readonly name: string;
+  /** The project's own colour, used to tint its tile in the grid. */
+  readonly tint: string;
   readonly kind: I18n;
   readonly tagline: I18n;
   readonly summary: I18n;
@@ -200,6 +246,7 @@ export const projects: readonly Project[] = [
   {
     id: 'toque',
     name: 'Toque',
+    tint: '#f97316',
     kind: {
       en: 'Multi-tenant restaurant SaaS',
       es: 'SaaS multi-tenant para restaurantes',
@@ -303,6 +350,7 @@ export const projects: readonly Project[] = [
   {
     id: 'ldm-campanas',
     name: 'LDM Campañas',
+    tint: '#ec4899',
     kind: {
       en: 'Multi-network advertising SaaS',
       es: 'SaaS de publicidad multi-red',
@@ -366,6 +414,7 @@ export const projects: readonly Project[] = [
   {
     id: 'accesscore',
     name: 'AccessCore',
+    tint: '#6366f1',
     kind: {
       en: 'Identity & authorization platform',
       es: 'Plataforma de identidad y autorización',
@@ -418,6 +467,7 @@ export const projects: readonly Project[] = [
   {
     id: 'miniledger',
     name: 'MiniLedger',
+    tint: '#0ea5e9',
     kind: { en: 'Double-entry ledger API', es: 'API de contabilidad por partida doble' },
     tagline: {
       en: 'Money that is conserved, idempotent, and safe under concurrency.',
@@ -467,6 +517,7 @@ export const projects: readonly Project[] = [
   {
     id: 'zyrcle',
     name: 'Zyrcle',
+    tint: '#22c55e',
     kind: {
       en: 'Tokenized recycling with blockchain and IoT',
       es: 'Reciclaje tokenizado con blockchain e IoT',

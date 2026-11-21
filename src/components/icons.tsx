@@ -82,3 +82,149 @@ export function GlobeIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/* ── Highlight icons ──────────────────────────────────────────────────
+   Drawn on a 24 grid with a 1.6 stroke, so they sit together as a set
+   rather than as glyphs borrowed from a font. */
+
+/** Stack: layers, for the technologies. */
+export function StackIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path
+        d="M12 3.2 3.6 7.4 12 11.6l8.4-4.2L12 3.2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m3.6 12.2 8.4 4.2 8.4-4.2M3.6 16.8 12 21l8.4-4.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Approach: a flask, for how the work is tested and proven. */
+export function ApproachIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path
+        d="M9.5 3h5M10.2 3v5.4L5.4 17a2.4 2.4 0 0 0 2.1 3.6h9a2.4 2.4 0 0 0 2.1-3.6l-4.8-8.6V3"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M7.4 14.4h9.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Work: a briefcase, for the roles. */
+export function BriefcaseIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <rect
+        x="2.8"
+        y="7.2"
+        width="18.4"
+        height="13"
+        rx="2.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M8.6 7.2V5.6A2 2 0 0 1 10.6 3.6h2.8a2 2 0 0 1 2 2v1.6M2.8 12.4h18.4"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** Awards: a trophy. */
+export function TrophyIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path
+        d="M7 4h10v5.2a5 5 0 0 1-10 0V4Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7 5.6H4.4v1.8a3 3 0 0 0 3 3M17 5.6h2.6v1.8a3 3 0 0 1-3 3M12 14.4v3.2M8.4 20.4h7.2M9.6 17.6h4.8l1.2 2.8H8.4l1.2-2.8Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** CV: a document with a download arrow. */
+export function DocumentIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path
+        d="M14 2.8H7a2.2 2.2 0 0 0-2.2 2.2v14a2.2 2.2 0 0 0 2.2 2.2h10a2.2 2.2 0 0 0 2.2-2.2V8l-5.2-5.2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.8 3v5.2h5.2M12 11.4v5.2m0 0 2-2m-2 2-2-2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** The grid tab. */
+export function GridIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="1.6" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M9 3v18M15 3v18M3 9h18M3 15h18" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
+/** The person tab, for the personal section. */
+export function PersonIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M4.4 20.4a7.6 7.6 0 0 1 15.2 0"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** A mountain, for the hiking. */
+export function MountainIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path
+        d="M2.4 19.6 9 7.4l4 7 2.2-3.6 6.4 8.8H2.4Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <circle cx="17.6" cy="5.6" r="2" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}

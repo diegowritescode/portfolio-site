@@ -16,9 +16,10 @@ export function ProfileHeader() {
   return (
     <header className="px-4 pt-6 pb-2 sm:px-6 md:pt-10">
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:gap-12">
-        {/* The profile picture, inside the gradient story ring. */}
-        <div className="shrink-0 self-start md:mx-6">
-          <div className="story-ring rounded-full p-[3px]">
+        {/* On a phone the picture shares its row with the counters, which
+            is how the app lays the top of a profile out. */}
+        <div className="flex items-center gap-6 md:block md:shrink-0 md:gap-0 md:self-start md:mx-6">
+          <div className="story-ring shrink-0 rounded-full p-[3px]">
             <div className="rounded-full bg-page p-[3px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -27,14 +28,26 @@ export function ProfileHeader() {
                 width={150}
                 height={150}
                 fetchPriority="high"
-                className="h-[88px] w-[88px] rounded-full bg-surface-2 object-cover md:h-[150px] md:w-[150px]"
+                className="h-[86px] w-[86px] rounded-full bg-surface-2 object-cover md:h-[150px] md:w-[150px]"
               />
             </div>
           </div>
+
+          {/* The phone counter row, beside the picture. */}
+          <dl className="grid flex-1 grid-cols-3 gap-2 text-center md:hidden">
+            {profile.counts.map((count) => (
+              <div key={count.value}>
+                <dd className="text-[17px] font-semibold text-fg tabular-nums">{count.value}</dd>
+                <dt className="text-[13px] leading-tight text-fg-dim">{t(count.label)}</dt>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <div className="min-w-0 flex-1">
-          {/* Handle, verified tick and the action buttons. */}
+          {/* Handle and tick. The buttons join this row only on desktop:
+              on a phone they sit full width under the bio, as they do in
+              the app. */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
             <h1 className="text-xl font-normal tracking-tight text-fg sm:text-2xl">
               {profile.handle}
@@ -57,7 +70,7 @@ export function ProfileHeader() {
               </svg>
             </span>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="hidden flex-wrap items-center gap-2 md:flex">
               <a
                 href={`mailto:${EMAIL}`}
                 className="rounded-lg bg-brand px-5 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
@@ -124,15 +137,39 @@ export function ProfileHeader() {
         </div>
       </div>
 
-      {/* The phone counter row, on its own rules. */}
-      <dl className="mt-6 grid grid-cols-3 border-y border-line py-3 text-center md:hidden">
-        {profile.counts.map((count) => (
-          <div key={count.value}>
-            <dd className="text-base font-semibold text-fg tabular-nums">{count.value}</dd>
-            <dt className="text-xs text-muted">{t(count.label)}</dt>
-          </div>
-        ))}
-      </dl>
+      {/* Phone: the actions sit full width under the bio, as in the app. */}
+      <div className="mt-5 grid grid-cols-2 gap-2 md:hidden">
+        <a
+          href={`mailto:${EMAIL}`}
+          className="rounded-lg bg-brand px-4 py-1.5 text-center text-sm font-semibold text-white"
+        >
+          {t(ui.followLabel)}
+        </a>
+        <a
+          href="#contact"
+          className="rounded-lg bg-surface-2 px-4 py-1.5 text-center text-sm font-semibold text-fg"
+        >
+          {t(ui.messageLabel)}
+        </a>
+        <a
+          href={GITHUB}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 rounded-lg bg-surface-2 px-4 py-1.5 text-sm font-semibold text-fg"
+        >
+          <GitHubIcon className="h-4 w-4" />
+          GitHub
+        </a>
+        <a
+          href={LINKEDIN}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 rounded-lg bg-surface-2 px-4 py-1.5 text-sm font-semibold text-fg"
+        >
+          <LinkedInIcon className="h-4 w-4" />
+          LinkedIn
+        </a>
+      </div>
     </header>
   );
 }

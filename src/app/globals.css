@@ -110,7 +110,11 @@
   /* A square tile that keeps its ratio however the grid is sized. */
   .tile {
     position: relative;
-    aspect-ratio: 1 / 1;
+    display: block;
+    width: 100%;
+    /* padding-top beats aspect-ratio here: a grid item can stretch past a
+       ratio, but it cannot stretch past its own padding box. */
+    padding-top: 100%;
     overflow: hidden;
     background-color: var(--color-surface-2);
   }

@@ -12,6 +12,22 @@ import {
   ui,
 } from '@/content';
 import { useLang } from '@/lang';
+import {
+  ApproachIcon,
+  BriefcaseIcon,
+  DocumentIcon,
+  StackIcon,
+  TrophyIcon,
+} from './icons';
+
+/** One drawn icon per highlight, so the circles read as a set. */
+const ICONS: Record<HighlightId, (props: { className?: string }) => React.ReactElement> = {
+  stack: StackIcon,
+  approach: ApproachIcon,
+  experience: BriefcaseIcon,
+  awards: TrophyIcon,
+  cv: DocumentIcon,
+};
 
 /**
  * The story highlights: circles that open a panel of existing content.
@@ -64,22 +80,28 @@ export function HighlightsRail() {
         aria-label={t(ui.highlightsLabel)}
         className="no-scrollbar flex gap-6 overflow-x-auto px-4 py-6 sm:px-6 md:gap-8 md:px-12"
       >
-        {highlights.map((highlight) => (
-          <li key={highlight.id} className="shrink-0">
-            <button
-              type="button"
-              onClick={() => setOpen(highlight.id)}
-              className="group flex w-[72px] flex-col items-center gap-1.5 md:w-[88px]"
-            >
-              <span className="rounded-full border border-line p-[3px] transition-colors group-hover:border-line-strong">
-                <span className="flex h-[58px] w-[58px] items-center justify-center rounded-full bg-surface-2 text-xl text-fg-dim transition-colors group-hover:text-fg md:h-[72px] md:w-[72px] md:text-2xl">
-                  <span aria-hidden="true">{highlight.glyph}</span>
+        {highlights.map((highlight) => {
+          const Icon = ICONS[highlight.id];
+          return (
+            <li key={highlight.id} className="shrink-0">
+              <button
+                type="button"
+                onClick={() => setOpen(highlight.id)}
+                className="group flex w-[72px] flex-col items-center gap-1.5 md:w-[88px]"
+              >
+                {/* The ring lights up on hover, as an unseen story does. */}
+                <span className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-line transition-colors group-hover:bg-transparent group-hover:[background:linear-gradient(45deg,var(--ring-from),var(--ring-via),var(--ring-to))] md:h-[80px] md:w-[80px]">
+                  <span className="flex h-[62px] w-[62px] items-center justify-center rounded-full bg-page md:h-[76px] md:w-[76px]">
+                    <span className="flex h-[58px] w-[58px] items-center justify-center rounded-full bg-surface-2 text-muted transition-colors group-hover:text-fg md:h-[72px] md:w-[72px]">
+                      <Icon className="h-6 w-6 md:h-7 md:w-7" />
+                    </span>
+                  </span>
                 </span>
-              </span>
-              <span className="truncate text-xs text-fg-dim">{t(highlight.label)}</span>
-            </button>
-          </li>
-        ))}
+                <span className="truncate text-xs text-fg-dim">{t(highlight.label)}</span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
 
       <AnimatePresence>
@@ -105,9 +127,10 @@ export function HighlightsRail() {
             >
               <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
                 <h2 className="flex items-center gap-2.5 text-sm font-semibold text-fg">
-                  <span aria-hidden="true" className="text-base">
-                    {current.glyph}
-                  </span>
+                  {(() => {
+                    const Icon = ICONS[current.id];
+                    return <Icon className="h-[18px] w-[18px] text-muted" />;
+                  })()}
                   {t(current.label)}
                 </h2>
                 <button
