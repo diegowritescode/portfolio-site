@@ -1,51 +1,46 @@
 @import 'tailwindcss';
 
+/*
+  Dark-first terminal system. Light mode exists for anyone who forces it,
+  but the site is designed black: the hero, the grid and the glow all
+  assume a near-black page.
+*/
 @theme {
-  --color-page: #f7f8fa;
-  --color-surface: #ffffff;
-  --color-surface-2: #f1f3f7;
-  --color-line: #e3e6ed;
-  --color-line-strong: #cdd3df;
-  --color-muted: #586170;
-  --color-fg: #0f1522;
-  --color-brand: #4f46e5;
-  --color-brand-strong: #4338ca;
-  --color-brand-soft: #eef0fe;
-  --color-live: #067a54;
-  --color-live-soft: #e7f7f0;
-  --color-next: #b45309;
-  --color-next-soft: #fdf3e3;
+  --color-page: #05070b;
+  --color-surface: #0a0e15;
+  --color-surface-2: #10151f;
+  --color-line: #1b2230;
+  --color-line-strong: #2b3547;
+  --color-muted: #7d8899;
+  --color-fg: #e6ecf5;
+  --color-fg-dim: #aab6c6;
+
+  /* One accent carries the whole site: signal cyan. */
+  --color-brand: #4ae3c4;
+  --color-brand-strong: #6cf0d6;
+  --color-brand-dim: #1d7a68;
+  --color-brand-soft: #082b26;
+
+  /* Secondary, used only for awards and the "next" state. */
+  --color-amber: #f0b429;
+  --color-amber-soft: #2a1f08;
+
+  --color-live: #4ae3c4;
+  --color-live-soft: #082b26;
+  --color-next: #f0b429;
+  --color-next-soft: #2a1f08;
 
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-page: #0b0f17;
-    --color-surface: #111724;
-    --color-surface-2: #172031;
-    --color-line: #222c3d;
-    --color-line-strong: #2f3b51;
-    --color-muted: #9aa4b5;
-    --color-fg: #e8ecf3;
-    --color-brand: #8b85ff;
-    --color-brand-strong: #a7a2ff;
-    --color-brand-soft: #1d1f3d;
-    --color-live: #4fd1a1;
-    --color-live-soft: #0f2a22;
-    --color-next: #f2b46b;
-    --color-next-soft: #2e2213;
-  }
+    var(--font-jetbrains), ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }
 
 @layer base {
   html {
-    color-scheme: light dark;
+    color-scheme: dark;
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -62,13 +57,99 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* The grid that sits under everything: 1px lines, barely there. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 120% 80% at 50% 0%, black, transparent 75%);
+  }
+
   ::selection {
-    background-color: color-mix(in oklab, var(--color-brand) 22%, transparent);
+    background-color: var(--color-brand);
+    color: var(--color-page);
   }
 
   *:focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* A label that reads as a shell prompt: $ work */
+  .prompt::before {
+    content: '$ ';
+    color: var(--color-brand);
+  }
+
+  /* Neon text, used only on the few things that earn it. */
+  .glow {
+    text-shadow:
+      0 0 18px color-mix(in oklab, var(--color-brand) 45%, transparent),
+      0 0 46px color-mix(in oklab, var(--color-brand) 18%, transparent);
+  }
+
+  .glow-box {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--color-brand) 30%, transparent),
+      0 0 24px -6px color-mix(in oklab, var(--color-brand) 40%, transparent);
+  }
+
+  /* A panel with a terminal title bar. */
+  .panel {
+    border: 1px solid var(--color-line);
+    background-color: color-mix(in oklab, var(--color-surface) 80%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  .panel:hover {
+    border-color: var(--color-line-strong);
+  }
+
+  /* The blinking block cursor after the headline. */
+  .caret::after {
+    content: '';
+    display: inline-block;
+    width: 0.56ch;
+    height: 1em;
+    margin-left: 0.18em;
+    translate: 0 0.1em;
+    background-color: var(--color-brand);
+    animation: blink 1.15s step-end infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .caret::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Horizontal scan sweep on the hero, slow enough to read as atmosphere. */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
   }
 }

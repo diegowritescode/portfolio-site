@@ -19,14 +19,23 @@ export const profile = {
     en: 'Software engineer',
     es: 'Ingeniero de software',
   },
-  headline: {
-    en: 'I build systems that stay correct under load, and I write down why.',
-    es: 'Construyo sistemas que se mantienen correctos bajo carga, y dejo escrito por qué.',
+  headlineLead: {
+    en: 'Systems that stay correct',
+    es: 'Sistemas que siguen siendo correctos',
+  },
+  headlineAccent: {
+    en: 'under load.',
+    es: 'bajo carga.',
   },
   summary: {
-    en: 'Three years across banking, SaaS and my own products. Node.js, NestJS and TypeScript on PostgreSQL, with Java and .NET behind me. Every system below is live, tested down to its invariants, deployed from immutable images, and explained in architecture decision records.',
-    es: 'Tres años entre banca, SaaS y producto propio. Node.js, NestJS y TypeScript sobre PostgreSQL, con Java y .NET detrás. Cada sistema de abajo está en producción, probado hasta sus invariantes, desplegado desde imágenes inmutables y explicado en registros de decisión de arquitectura.',
+    en: 'Three years across a regulated bank, a SaaS I run alone, and products that shipped. Everything below is live — not a demo.',
+    es: 'Tres años entre un banco regulado, un SaaS que opero solo, y productos que salieron a producción. Todo lo de abajo está en vivo — no es demo.',
   },
+  stats: [
+    { value: '4', label: { en: 'systems in production', es: 'sistemas en producción' } },
+    { value: '120+', label: { en: 'decision records', es: 'registros de decisión' } },
+    { value: '1.3ms', label: { en: 'p50 authz check', es: 'p50 de autorización' } },
+  ],
   availability: {
     en: 'Open to remote and hybrid roles',
     es: 'Disponible para roles remotos e híbridos',
@@ -109,8 +118,8 @@ export const projects: readonly Project[] = [
       es: 'Un agente de WhatsApp que toma el pedido, y la operación que lo cumple.',
     },
     summary: {
-      en: 'An operations platform serving several restaurants from a single core: orders, kitchen, tables, deliveries and billing. A conversational agent reads the customer message, queries the real menu through retrieval over pgvector, and returns a structured order the backend validates before creating. I designed, built, deployed and operate all of it.',
-      es: 'Una plataforma de operación que atiende varios restaurantes desde un core único: pedidos, cocina, mesas, domicilios y cobro. Un agente conversacional lee el mensaje del cliente, consulta el menú real con recuperación sobre pgvector y devuelve un pedido estructurado que el backend valida antes de crear. Lo diseñé, construí, desplegué y lo opero.',
+      en: 'One core serving several restaurants: orders, kitchen, tables, deliveries, billing. A conversational agent reads the message, queries the real menu over pgvector, and returns a structured order the backend validates. I designed, built, deployed and operate all of it.',
+      es: 'Un core único atendiendo varios restaurantes: pedidos, cocina, mesas, domicilios, cobro. Un agente conversacional lee el mensaje, consulta el menú real sobre pgvector y devuelve un pedido estructurado que el backend valida. Lo diseñé, construí, desplegué y lo opero.',
     },
     highlights: {
       en: [
@@ -212,8 +221,8 @@ export const projects: readonly Project[] = [
       es: 'Un motor de políticas híbrido ReBAC + RBAC + ABAC con consistencia estilo Zanzibar.',
     },
     summary: {
-      en: 'Relationships, IAM-style deny-override and Cedar-like conditions are resolved in one call that is deterministic, explainable, and consistent under concurrent writes. Other services authorize through its published SDK.',
-      es: 'Relaciones, deny-override estilo IAM y condiciones tipo Cedar se resuelven en una sola llamada determinista, explicable y consistente bajo escrituras concurrentes. Otros servicios autorizan a través de su SDK publicado.',
+      en: 'Relationships, IAM-style deny-override and Cedar-like conditions resolved in one call: deterministic, explainable, consistent under concurrent writes.',
+      es: 'Relaciones, deny-override estilo IAM y condiciones tipo Cedar resueltas en una llamada: determinista, explicable, consistente bajo escrituras concurrentes.',
     },
     highlights: {
       en: [
@@ -261,8 +270,8 @@ export const projects: readonly Project[] = [
       es: 'Dinero que se conserva, idempotente y seguro bajo concurrencia.',
     },
     summary: {
-      en: 'Transfers post balanced entries between accounts, retries never double-spend, and every posting is hash-chained. It is the first consumer of AccessCore: every write is authorized through its SDK.',
-      es: 'Las transferencias registran asientos balanceados entre cuentas, los reintentos nunca duplican el gasto y cada asiento va encadenado por hash. Es el primer consumidor de AccessCore: cada escritura se autoriza a través de su SDK.',
+      en: 'Balanced entries between accounts, retries that never double-spend, every posting hash-chained. The first consumer of AccessCore.',
+      es: 'Asientos balanceados entre cuentas, reintentos que nunca duplican el gasto, cada asiento encadenado por hash. El primer consumidor de AccessCore.',
     },
     highlights: {
       en: [
@@ -313,8 +322,8 @@ export const projects: readonly Project[] = [
       es: 'Reciclaje que le paga al residente, enrutado por la ciudad donde corre.',
     },
     summary: {
-      en: 'Residents earn tokens for material they separate correctly; collectors see routes optimized over a real map of Medellín; the operator sees the whole circuit. Three dashboards, one domain, built and working by the end of the event.',
-      es: 'Los residentes ganan tokens por el material que separan bien; los recolectores ven rutas optimizadas sobre un mapa real de Medellín; el operador ve el circuito completo. Tres paneles, un dominio, construido y funcionando al cierre del evento.',
+      en: 'Residents earn tokens for material they separate; collectors get routes optimized over a real map of Medellín. Three dashboards, one domain, working by the end of the event.',
+      es: 'Los residentes ganan tokens por el material que separan; los recolectores reciben rutas optimizadas sobre un mapa real de Medellín. Tres paneles, un dominio, funcionando al cierre del evento.',
     },
     highlights: {
       en: [

@@ -29,6 +29,9 @@ const statusStyles: Record<RoadmapStatus, string> = {
   Planned: 'bg-surface-2 text-muted',
 };
 
+const linkBase =
+  'inline-flex items-center gap-2 rounded-sm border border-line px-4 py-2.5 font-mono text-sm transition-colors hover:border-brand hover:text-brand';
+
 const copy = {
   workEyebrow: { en: 'Work', es: 'Proyectos' },
   workTitle: {
@@ -69,26 +72,27 @@ export default function Page() {
 
   return (
     <>
-      <div className="sticky top-0 z-40 border-b border-line bg-page/85 backdrop-blur">
+      <div className="sticky top-0 z-40 border-b border-line bg-page/80 backdrop-blur-md">
         <nav
           aria-label={t(nav.work)}
           className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
         >
-          <a href="#main" className="font-semibold tracking-tight">
-            {profile.name}
+          <a href="#main" className="font-mono text-sm font-semibold tracking-tight">
+            <span className="text-brand">~/</span>
+            {profile.name.toLowerCase().replace(' ', '-')}
           </a>
           <div className="flex items-center gap-1 sm:gap-3">
-            <div className="hidden items-center gap-4 text-sm text-muted sm:flex">
-              <a href="#work" className="transition-colors hover:text-fg">
+            <div className="hidden items-center gap-5 font-mono text-[13px] text-muted sm:flex">
+              <a href="#work" className="transition-colors hover:text-brand">
                 {t(nav.work)}
               </a>
-              <a href="#experience" className="transition-colors hover:text-fg">
+              <a href="#experience" className="transition-colors hover:text-brand">
                 {t(nav.experience)}
               </a>
-              <a href="#approach" className="transition-colors hover:text-fg">
+              <a href="#approach" className="transition-colors hover:text-brand">
                 {t(nav.approach)}
               </a>
-              <a href="#contact" className="transition-colors hover:text-fg">
+              <a href="#contact" className="transition-colors hover:text-brand">
                 {t(nav.contact)}
               </a>
             </div>
@@ -108,8 +112,8 @@ export default function Page() {
         >
           <div className="space-y-6">
             {projects.map((project, i) => (
-              <Reveal key={project.id} delay={i * 0.05}>
-                <ProjectCard project={project} />
+              <Reveal key={project.id} delay={i * 0.04}>
+                <ProjectCard project={project} index={i} />
               </Reveal>
             ))}
           </div>
@@ -133,9 +137,13 @@ export default function Page() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {practices.map((practice, i) => (
               <Reveal key={practice.title.en} delay={i * 0.05}>
-                <div className="h-full rounded-2xl border border-line bg-surface p-6">
-                  <h3 className="font-semibold tracking-tight">{t(practice.title)}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted">{t(practice.body)}</p>
+                <div className="panel h-full rounded-sm p-6">
+                  <h3 className="font-mono text-[15px] font-semibold tracking-tight text-brand">
+                    {t(practice.title)}
+                  </h3>
+                  <p className="mt-3 text-[14.5px] leading-relaxed text-fg-dim">
+                    {t(practice.body)}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -162,14 +170,14 @@ export default function Page() {
                   }`}
                 />
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h3 className="font-semibold tracking-tight">{item.name}</h3>
+                  <h3 className="font-mono font-semibold tracking-tight">{item.name}</h3>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusStyles[item.status]}`}
+                    className={`rounded-sm px-2 py-0.5 font-mono text-[10.5px] tracking-wide uppercase ${statusStyles[item.status]}`}
                   >
                     {t(roadmapStatusLabel[item.status])}
                   </span>
                 </div>
-                <p className="mt-1 text-[15px] text-muted">{t(item.body)}</p>
+                <p className="mt-1.5 text-[14.5px] text-fg-dim">{t(item.body)}</p>
               </Reveal>
             ))}
           </ol>
@@ -177,12 +185,12 @@ export default function Page() {
 
         <Section id="contact" eyebrow={t(nav.contact)} title={t(contact.heading)}>
           <Reveal>
-            <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
-              <p className="max-w-xl text-muted">{t(contact.body)}</p>
+            <div className="panel rounded-sm p-6 sm:p-8">
+              <p className="max-w-xl text-fg-dim">{t(contact.body)}</p>
               <div className="mt-6 flex flex-wrap gap-2.5">
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-strong"
+                  className="glow-box inline-flex items-center gap-2 rounded-sm bg-brand px-4 py-2.5 font-mono text-sm font-semibold text-page transition-colors hover:bg-brand-strong"
                 >
                   <MailIcon className="h-4 w-4" />
                   {EMAIL}
@@ -191,19 +199,19 @@ export default function Page() {
                   href={LINKEDIN}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-line-strong hover:bg-surface-2"
+                  className={linkBase}
                 >
                   LinkedIn
                 </a>
                 <a
                   href={lang === 'es' ? '/cv/Diego-Ramirez-CV-ES.pdf' : '/cv/Diego-Ramirez-CV-EN.pdf'}
                   download
-                  className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-line-strong hover:bg-surface-2"
+                  className={linkBase}
                 >
                   {t(ui.downloadCv)} (PDF)
                 </a>
               </div>
-              <p className="mt-5 font-mono text-xs text-muted">
+              <p className="mt-6 font-mono text-[11.5px] text-muted">
                 {t(profile.availability)} · {t(profile.location)}
               </p>
             </div>

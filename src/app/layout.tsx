@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import { DEFAULT_LANG, profile, SITE_URL } from '@/content';
 import { LangProvider } from '@/lang';
 import { SkipLink } from '@/components/skip-link';
 import './globals.css';
+
+const sans = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains', display: 'swap' });
 
 const title = `${profile.name} — ${profile.role[DEFAULT_LANG]}`;
 const description =
@@ -19,14 +23,13 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f8fa' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b0f17' },
+    { color: '#05070b' },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={DEFAULT_LANG}>
+    <html lang={DEFAULT_LANG} className={`${sans.variable} ${mono.variable}`}>
       <body className="min-h-screen">
         <LangProvider>
           <SkipLink />

@@ -14,15 +14,23 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="py-16 sm:py-20">
+    <section id={id} aria-labelledby={`${id}-title`} className="relative py-20 sm:py-28">
       <Reveal>
-        <p className="text-xs font-semibold tracking-[0.14em] text-brand uppercase">{eyebrow}</p>
-        <h2 id={`${id}-title`} className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+        <div className="flex items-center gap-4">
+          <p className="prompt font-mono text-xs tracking-[0.18em] text-muted uppercase">
+            {eyebrow}
+          </p>
+          <span aria-hidden="true" className="h-px flex-1 bg-line" />
+        </div>
+        <h2
+          id={`${id}-title`}
+          className="mt-5 max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
+        >
           {title}
         </h2>
-        {intro ? <p className="mt-3 max-w-2xl text-muted">{intro}</p> : null}
+        {intro ? <p className="mt-4 max-w-2xl text-fg-dim">{intro}</p> : null}
       </Reveal>
-      <div className="mt-10">{children}</div>
+      <div className="mt-12">{children}</div>
     </section>
   );
 }
