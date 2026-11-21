@@ -2,88 +2,13 @@
 
 import dynamic from 'next/dynamic';
 import { motion, useReducedMotion, useScroll } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { GITHUB, LINKEDIN, profile, ui } from '@/content';
 import { useLang } from '@/lang';
 import { ArrowUpRightIcon, GitHubIcon, LinkedInIcon } from './icons';
+import { PortraitParticles } from './portrait-particles';
 
 const HeroScene = dynamic(() => import('./hero-scene').then((m) => m.HeroScene), { ssr: false });
-
-/** The lines the terminal types out, in order. */
-const BOOT: readonly { readonly text: string; readonly tone: 'dim' | 'out' | 'ok' }[] = [
-  { text: 'whoami', tone: 'dim' },
-  { text: 'diego — software engineer · medellín, colombia', tone: 'out' },
-  { text: 'systems --status', tone: 'dim' },
-  { text: 'toque          multi-tenant saas      LIVE', tone: 'ok' },
-  { text: 'accesscore     authz platform         LIVE', tone: 'ok' },
-  { text: 'miniledger     double-entry ledger    LIVE', tone: 'ok' },
-  { text: 'stack --top', tone: 'dim' },
-  { text: 'typescript · node · react · postgres · java · .net', tone: 'out' },
-];
-
-function Terminal() {
-  const [visible, setVisible] = useState(0);
-  const [typed, setTyped] = useState('');
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    if (reduced) {
-      setVisible(BOOT.length);
-      return;
-    }
-    const current = BOOT[visible];
-    if (!current) return;
-
-    // Commands type character by character; their output appears at once.
-    if (current.tone !== 'dim') {
-      const id = setTimeout(() => setVisible((v) => v + 1), 260);
-      return () => clearTimeout(id);
-    }
-    if (typed.length < current.text.length) {
-      const id = setTimeout(() => setTyped(current.text.slice(0, typed.length + 1)), 38);
-      return () => clearTimeout(id);
-    }
-    const id = setTimeout(() => {
-      setVisible((v) => v + 1);
-      setTyped('');
-    }, 340);
-    return () => clearTimeout(id);
-  }, [reduced, typed, visible]);
-
-  return (
-    <div className="panel w-full max-w-md rounded-sm font-mono text-[12.5px] leading-[1.75] sm:text-[13px]">
-      <div className="flex items-center gap-2 border-b border-line px-3 py-2">
-        <span className="h-2 w-2 rounded-full bg-line-strong" />
-        <span className="h-2 w-2 rounded-full bg-line-strong" />
-        <span className="h-2 w-2 rounded-full bg-line-strong" />
-        <span className="ml-1 text-[11px] text-muted">deviego.xyz — zsh</span>
-      </div>
-      <div className="min-h-[13.5rem] px-3 py-3">
-        {BOOT.slice(0, visible).map((line, i) => (
-          <p
-            key={`${line.text}-${i}`}
-            className={
-              line.tone === 'dim'
-                ? 'text-fg'
-                : line.tone === 'ok'
-                  ? 'text-brand'
-                  : 'text-fg-dim'
-            }
-          >
-            {line.tone === 'dim' ? <span className="text-brand">$ </span> : null}
-            {line.text}
-          </p>
-        ))}
-        {visible < BOOT.length && BOOT[visible]?.tone === 'dim' ? (
-          <p className="text-fg">
-            <span className="text-brand">$ </span>
-            <span className="caret">{typed}</span>
-          </p>
-        ) : null}
-      </div>
-    </div>
-  );
-}
 
 export function Hero() {
   const { t } = useLang();
@@ -188,7 +113,12 @@ export function Hero() {
         </div>
 
         <motion.div {...rise(0.25)} className="hidden justify-self-end lg:block">
-          <Terminal />
+          <div className="relative">
+            <PortraitParticles src="/media/portrait.jpg" alt={t(ui.portraitAlt)} />
+            <p className="mt-4 font-mono text-[11px] tracking-wide text-muted">
+              <span className="text-brand">#</span> {t(ui.portraitHint)}
+            </p>
+          </div>
         </motion.div>
       </div>
     </header>

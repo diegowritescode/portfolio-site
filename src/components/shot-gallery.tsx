@@ -23,11 +23,29 @@ export function ShotGallery({ shots, label }: { shots: readonly Shot[]; label: s
         setOpen((i) => (i === null ? i : (i - 1 + shots.length) % shots.length));
     };
     document.addEventListener('keydown', onKey);
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
+
+    // Lock the page without losing the scroll position: fixing the body to
+    // the current offset keeps the background still and restores it exactly.
+    const y = window.scrollY;
+    const { body } = document;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = 'fixed';
+    body.style.top = `-${y}px`;
+    body.style.width = '100%';
+    body.style.overflow = 'hidden';
+
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = overflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      window.scrollTo(0, y);
     };
   }, [close, open, shots.length]);
 
@@ -55,7 +73,7 @@ export function ShotGallery({ shots, label }: { shots: readonly Shot[]; label: s
       </ul>
 
       <AnimatePresence>
-        {active ? (
+        {active && open !== null ? (
           <motion.div
             role="dialog"
             aria-modal="true"
@@ -68,28 +86,58 @@ export function ShotGallery({ shots, label }: { shots: readonly Shot[]; label: s
             transition={{ duration: 0.18 }}
           >
             <motion.figure
-              className="max-h-full w-full max-w-5xl overflow-hidden rounded-xl bg-surface"
+              className="flex max-h-full w-full max-w-5xl flex-col overflow-hidden rounded-sm border border-line bg-surface"
               onClick={(event) => event.stopPropagation()}
               initial={reduced ? false : { scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={reduced ? undefined : { scale: 0.98, opacity: 0 }}
               transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={active.src}
-                alt={t(active.alt)}
-                className="max-h-[78vh] w-full object-contain"
-              />
-              <figcaption className="flex items-center justify-between gap-4 border-t border-line px-4 py-3 text-sm text-muted">
-                <span>{t(active.alt)}</span>
-                <button
-                  type="button"
-                  onClick={close}
-                  className="shrink-0 rounded-md border border-line px-2.5 py-1 text-xs font-medium text-fg hover:bg-surface-2"
-                >
-                  {t(ui.closeImage)}
-                </button>
+              <div className="flex items-center gap-3 border-b border-line px-4 py-2.5">
+                <span className="font-mono text-[11.5px] text-muted tabular-nums">
+                  {open + 1} / {shots.length}
+                </span>
+                <div className="ml-auto flex items-center gap-1.5">
+                  {shots.length > 1 ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setOpen((i) => ((i ?? 0) - 1 + shots.length) % shots.length)}
+                        aria-label={t(ui.prevImage)}
+                        className="rounded-sm border border-line px-2.5 py-1 font-mono text-xs transition-colors hover:border-brand hover:text-brand"
+                      >
+                        ←
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setOpen((i) => ((i ?? 0) + 1) % shots.length)}
+                        aria-label={t(ui.nextImage)}
+                        className="rounded-sm border border-line px-2.5 py-1 font-mono text-xs transition-colors hover:border-brand hover:text-brand"
+                      >
+                        →
+                      </button>
+                    </>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={close}
+                    aria-label={t(ui.closeImage)}
+                    className="rounded-sm border border-line px-2.5 py-1 font-mono text-xs transition-colors hover:border-brand hover:text-brand"
+                  >
+                    ✕ Esc
+                  </button>
+                </div>
+              </div>
+
+              {/* The image scrolls inside the dialog when it is taller than
+                  the viewport, so nothing is ever cut off. */}
+              <div className="min-h-0 flex-1 overflow-auto overscroll-contain">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={active.src} alt={t(active.alt)} className="w-full" />
+              </div>
+
+              <figcaption className="border-t border-line px-4 py-3 text-sm text-fg-dim">
+                {t(active.alt)}
               </figcaption>
             </motion.figure>
           </motion.div>

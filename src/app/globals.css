@@ -6,29 +6,29 @@
   assume a near-black page.
 */
 @theme {
-  --color-page: #05070b;
-  --color-surface: #0a0e15;
-  --color-surface-2: #10151f;
-  --color-line: #1b2230;
-  --color-line-strong: #2b3547;
-  --color-muted: #7d8899;
-  --color-fg: #e6ecf5;
-  --color-fg-dim: #aab6c6;
+  --color-page: #12161d;
+  --color-surface: #1a1f28;
+  --color-surface-2: #222833;
+  --color-line: #2f3845;
+  --color-line-strong: #44505f;
+  --color-muted: #94a1b2;
+  --color-fg: #eef2f7;
+  --color-fg-dim: #c2ccd8;
 
   /* One accent carries the whole site: signal cyan. */
   --color-brand: #4ae3c4;
   --color-brand-strong: #6cf0d6;
   --color-brand-dim: #1d7a68;
-  --color-brand-soft: #082b26;
+  --color-brand-soft: #0e3b33;
 
   /* Secondary, used only for awards and the "next" state. */
   --color-amber: #f0b429;
-  --color-amber-soft: #2a1f08;
+  --color-amber-soft: #352811;
 
   --color-live: #4ae3c4;
-  --color-live-soft: #082b26;
+  --color-live-soft: #0e3b33;
   --color-next: #f0b429;
-  --color-next-soft: #2a1f08;
+  --color-next-soft: #352811;
 
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -68,7 +68,7 @@
       linear-gradient(to right, var(--color-line) 1px, transparent 1px),
       linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
     background-size: 64px 64px;
-    opacity: 0.35;
+    opacity: 0.5;
     mask-image: radial-gradient(ellipse 120% 80% at 50% 0%, black, transparent 75%);
   }
 
