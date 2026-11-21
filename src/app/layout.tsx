@@ -31,7 +31,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={DEFAULT_LANG} className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html
+      lang={DEFAULT_LANG}
+      className={`${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Sets the theme before first paint, so there is no flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />

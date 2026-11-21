@@ -240,7 +240,10 @@ function ProjectDetail({ project, onClose }: { project: Project; onClose: () => 
           <ul className="space-y-2">
             {project.highlights[lang].map((item) => (
               <li key={item} className="flex gap-2.5 text-sm leading-relaxed text-fg-dim">
-                <span aria-hidden="true" className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brand" />
+                <span
+                  aria-hidden="true"
+                  className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brand"
+                />
                 {item}
               </li>
             ))}

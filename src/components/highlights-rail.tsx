@@ -12,13 +12,7 @@ import {
   ui,
 } from '@/content';
 import { useLang } from '@/lang';
-import {
-  ApproachIcon,
-  BriefcaseIcon,
-  DocumentIcon,
-  StackIcon,
-  TrophyIcon,
-} from './icons';
+import { ApproachIcon, BriefcaseIcon, DocumentIcon, StackIcon, TrophyIcon } from './icons';
 
 /** One drawn icon per highlight, so the circles read as a set. */
 const ICONS: Record<HighlightId, (props: { className?: string }) => React.ReactElement> = {
@@ -233,14 +227,11 @@ function HighlightBody({ id }: { id: HighlightId }) {
               </span>
               {project.name}
             </h3>
-            {project.award ? (
-              <p className="mt-1 text-sm text-fg-dim">{t(project.award)}</p>
-            ) : null}
+            {project.award ? <p className="mt-1 text-sm text-fg-dim">{t(project.award)}</p> : null}
             <ul className="mt-2 space-y-1.5">
               {project.metrics.map((metric) => (
                 <li key={metric.value} className="text-sm text-fg-dim">
-                  <span className="font-semibold text-fg">{metric.value}</span>{' '}
-                  {t(metric.label)}
+                  <span className="font-semibold text-fg">{metric.value}</span> {t(metric.label)}
                 </li>
               ))}
             </ul>

@@ -30,10 +30,7 @@ export function ThemeToggle() {
       ) : (
         // A moon: the page is light, so the button offers dark.
         <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-          <path
-            fill="currentColor"
-            d="M20.7 14.6A8.8 8.8 0 1 1 9.4 3.3a7.1 7.1 0 0 0 11.3 11.3z"
-          />
+          <path fill="currentColor" d="M20.7 14.6A8.8 8.8 0 1 1 9.4 3.3a7.1 7.1 0 0 0 11.3 11.3z" />
         </svg>
       )}
     </button>

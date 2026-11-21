@@ -134,7 +134,10 @@ export const about = {
   blocks: [
     {
       icon: 'mountain',
-      title: { en: 'I walk 45 kilometres to log off', es: 'Camino 45 kilómetros para desconectarme' },
+      title: {
+        en: 'I walk 45 kilometres to log off',
+        es: 'Camino 45 kilómetros para desconectarme',
+      },
       body: {
         en: 'Long-distance hiking is my way out of the network. Full-day routes, no signal, nothing to refresh. It is the only place where a problem cannot be solved by typing faster, and most of what I have figured out about a stuck system, I figured out somewhere around kilometre thirty.',
         es: 'El senderismo de larga distancia es mi salida de la red. Rutas de día entero, sin señal, nada que refrescar. Es el único lugar donde un problema no se resuelve escribiendo más rápido, y la mayoría de lo que he entendido sobre un sistema atascado, lo entendí por ahí en el kilómetro treinta.',
@@ -150,7 +153,10 @@ export const about = {
     },
     {
       icon: 'stack',
-      title: { en: 'I build the tools I work with', es: 'Construyo las herramientas con las que trabajo' },
+      title: {
+        en: 'I build the tools I work with',
+        es: 'Construyo las herramientas con las que trabajo',
+      },
       body: {
         en: 'One engineer maintaining two products in production only works if the tooling carries part of the weight. So I built mine: a custom MCP server over my own codebase, subagents and hooks that handle generation, review and documentation. I direct them and review their output like a colleague pull request.',
         es: 'Un solo ingeniero manteniendo dos productos en producción solo funciona si las herramientas cargan parte del peso. Así que construí las mías: un servidor MCP propio sobre mi código, subagentes y hooks que se encargan de generación, revisión y documentación. Los dirijo y reviso su salida como un pull request de un compañero.',
@@ -379,7 +385,10 @@ export const projects: readonly Project[] = [
     },
     metrics: [
       { value: '3', label: { en: 'ad networks, one contract', es: 'redes, un contrato' } },
-      { value: '126/128', label: { en: 'objectives chosen correctly', es: 'objetivos elegidos bien' } },
+      {
+        value: '126/128',
+        label: { en: 'objectives chosen correctly', es: 'objetivos elegidos bien' },
+      },
       { value: 'v2.83', label: { en: 'shipped to production', es: 'en producción' } },
     ],
     stack: [
@@ -402,13 +411,49 @@ export const projects: readonly Project[] = [
       es: 'El código es de la empresa. Las pantallas usan una cuenta de demostración con datos inventados.',
     },
     shots: [
-      { src: '/media/ldm/01-home.jpg', alt: { en: 'Home screen with what the agent recommends today', es: 'Pantalla de inicio con lo que el agente recomienda hoy' } },
-      { src: '/media/ldm/02-ai-create.jpg', alt: { en: 'Creating a campaign by describing it in a chat', es: 'Creando una campaña describiéndola en un chat' } },
-      { src: '/media/ldm/03-campaigns.jpg', alt: { en: 'Campaign list across the three networks', es: 'Lista de campañas en las tres redes' } },
-      { src: '/media/ldm/04-detail.jpg', alt: { en: 'Campaign detail with sets and ads', es: 'Detalle de campaña con conjuntos y anuncios' } },
-      { src: '/media/ldm/05-results.jpg', alt: { en: 'Results and synced metrics', es: 'Resultados y métricas sincronizadas' } },
-      { src: '/media/ldm/06-brands.jpg', alt: { en: 'Client brands, each with its own memory and gallery', es: 'Marcas de clientes, cada una con su memoria y galería' } },
-      { src: '/media/ldm/07-mobile.jpg', alt: { en: 'The same platform on a phone', es: 'La misma plataforma en un celular' } },
+      {
+        src: '/media/ldm/01-home.jpg',
+        alt: {
+          en: 'Home screen with what the agent recommends today',
+          es: 'Pantalla de inicio con lo que el agente recomienda hoy',
+        },
+      },
+      {
+        src: '/media/ldm/02-ai-create.jpg',
+        alt: {
+          en: 'Creating a campaign by describing it in a chat',
+          es: 'Creando una campaña describiéndola en un chat',
+        },
+      },
+      {
+        src: '/media/ldm/03-campaigns.jpg',
+        alt: {
+          en: 'Campaign list across the three networks',
+          es: 'Lista de campañas en las tres redes',
+        },
+      },
+      {
+        src: '/media/ldm/04-detail.jpg',
+        alt: {
+          en: 'Campaign detail with sets and ads',
+          es: 'Detalle de campaña con conjuntos y anuncios',
+        },
+      },
+      {
+        src: '/media/ldm/05-results.jpg',
+        alt: { en: 'Results and synced metrics', es: 'Resultados y métricas sincronizadas' },
+      },
+      {
+        src: '/media/ldm/06-brands.jpg',
+        alt: {
+          en: 'Client brands, each with its own memory and gallery',
+          es: 'Marcas de clientes, cada una con su memoria y galería',
+        },
+      },
+      {
+        src: '/media/ldm/07-mobile.jpg',
+        alt: { en: 'The same platform on a phone', es: 'La misma plataforma en un celular' },
+      },
     ],
   },
   {
@@ -550,7 +595,10 @@ export const projects: readonly Project[] = [
         label: { en: 'place, Avalanche Hackadev 2025', es: 'puesto, Hackadev Avalanche 2025' },
       },
       { value: '3', label: { en: 'role-specific dashboards', es: 'paneles según rol' } },
-      { value: '2', label: { en: 'additional technical awards', es: 'reconocimientos técnicos extra' } },
+      {
+        value: '2',
+        label: { en: 'additional technical awards', es: 'reconocimientos técnicos extra' },
+      },
     ],
     stack: ['React', 'TypeScript', 'Python', 'Solidity', 'Avalanche', 'Leaflet'],
     links: [],
@@ -626,7 +674,15 @@ export const experience: readonly Role[] = [
       en: 'Built the platform that turned the agency services into a product. The core problem was normalizing the Meta Ads, Google Ads and TikTok Ads APIs behind one abstraction: three OAuth flows, three token lifetimes, three data models, one interface. An AI layer turned natural-language instructions into structured operations validated against each platform before executing.',
       es: 'Construí la plataforma con la que la agencia convirtió sus servicios en producto. El problema central fue normalizar las APIs de Meta Ads, Google Ads y TikTok Ads detrás de una sola abstracción: tres flujos OAuth, tres vidas de token, tres modelos de datos, una interfaz. Una capa de IA traducía instrucciones en lenguaje natural a operaciones estructuradas, validadas contra cada plataforma antes de ejecutarse.',
     },
-    stack: ['TypeScript', 'Node.js', 'React', 'Next.js', 'PostgreSQL', 'OAuth 2.0', 'Anthropic API'],
+    stack: [
+      'TypeScript',
+      'Node.js',
+      'React',
+      'Next.js',
+      'PostgreSQL',
+      'OAuth 2.0',
+      'Anthropic API',
+    ],
   },
   {
     company: 'Riwi.io',

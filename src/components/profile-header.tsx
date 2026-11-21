@@ -63,10 +63,7 @@ export function ProfileHeader() {
                   fill="var(--color-brand)"
                   d="M12 1.5l2.6 2.1 3.3-.3.9 3.2 2.9 1.6-1.3 3.1 1.3 3.1-2.9 1.6-.9 3.2-3.3-.3L12 22.5l-2.6-2.1-3.3.3-.9-3.2-2.9-1.6L3.6 12.8 2.3 9.7l2.9-1.6.9-3.2 3.3.3L12 1.5z"
                 />
-                <path
-                  fill="#fff"
-                  d="M10.8 15.4l-3-3 1.3-1.3 1.7 1.7 4.2-4.2 1.3 1.3-5.5 5.5z"
-                />
+                <path fill="#fff" d="M10.8 15.4l-3-3 1.3-1.3 1.7 1.7 4.2-4.2 1.3 1.3-5.5 5.5z" />
               </svg>
             </span>
 
@@ -127,10 +124,7 @@ export function ProfileHeader() {
               <span className="text-muted">📍 {t(profile.location)}</span>
             </p>
             <p className="flex items-center gap-1.5 pt-0.5 text-brand">
-              <span
-                aria-hidden="true"
-                className="inline-block h-1.5 w-1.5 rounded-full bg-live"
-              />
+              <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-live" />
               {t(profile.availability)}
             </p>
           </div>
