@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from 'next';
-import { profile, SITE_URL } from '@/content';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import { DEFAULT_LANG, profile, SITE_URL } from '@/content';
+import { LangProvider } from '@/lang';
+import { ThemeProvider, THEME_SCRIPT } from '@/theme';
+import { SkipLink } from '@/components/skip-link';
 import './globals.css';
 
-const title = `${profile.name} — ${profile.role}`;
+const sans = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains', display: 'swap' });
+
+const title = `${profile.name} — ${profile.role[DEFAULT_LANG]}`;
 const description =
-  'Backend engineer building production-grade systems with Node.js, NestJS, TypeScript and PostgreSQL: an identity and authorization platform and a double-entry ledger, both live.';
+  'Software engineer building production systems with Node.js, NestJS, TypeScript and PostgreSQL: a multi-tenant SaaS with an AI ordering agent, an identity and authorization platform, and a double-entry ledger, all live.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -17,22 +24,29 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f8fa' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b0f17' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html
+      lang={DEFAULT_LANG}
+      className={`${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Sets the theme before first paint, so there is no flash. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-screen">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:shadow"
-        >
-          Skip to content
-        </a>
-        {children}
+        <ThemeProvider>
+          <LangProvider>
+            <SkipLink />
+            {children}
+          </LangProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
