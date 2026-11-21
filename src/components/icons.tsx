@@ -6,6 +6,14 @@ export function GitHubIcon({ className }: { className?: string }) {
   );
 }
 
+export function LinkedInIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M3.6 5.3H.9V15h2.7V5.3zM2.25 1A1.57 1.57 0 00.6 2.55c0 .86.66 1.55 1.6 1.55h.02c1 0 1.62-.69 1.62-1.55A1.56 1.56 0 002.25 1zM15 9.44c0-2.5-1.33-3.66-3.11-3.66-1.44 0-2.08.79-2.44 1.35V5.3H6.75c.04.76 0 9.7 0 9.7h2.7V9.58c0-.24.02-.49.09-.66.19-.49.63-.99 1.38-.99.98 0 1.37.74 1.37 1.83V15H15V9.44z" />
+    </svg>
+  );
+}
+
 export function ArrowUpRightIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -19,6 +27,58 @@ export function ArrowUpRightIcon({ className }: { className?: string }) {
       strokeLinejoin="round"
     >
       <path d="M5 11 11 5M6 5h5v5" />
+    </svg>
+  );
+}
+
+export function AwardIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="8" cy="6" r="4" />
+      <path d="M5.5 9.4 4.5 15 8 13.3 11.5 15l-1-5.6" />
+    </svg>
+  );
+}
+
+export function MailIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="1.5" y="3" width="13" height="10" rx="2" />
+      <path d="m2 4.5 6 4 6-4" />
+    </svg>
+  );
+}
+
+export function GlobeIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <circle cx="8" cy="8" r="6.3" />
+      <path d="M1.7 8h12.6M8 1.7c1.7 1.8 2.6 4 2.6 6.3S9.7 12.5 8 14.3C6.3 12.5 5.4 10.3 5.4 8S6.3 3.5 8 1.7z" />
     </svg>
   );
 }

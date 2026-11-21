@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { profile, SITE_URL } from '@/content';
+import { DEFAULT_LANG, profile, SITE_URL } from '@/content';
+import { LangProvider } from '@/lang';
+import { SkipLink } from '@/components/skip-link';
 import './globals.css';
 
-const title = `${profile.name} — ${profile.role}`;
+const title = `${profile.name} — ${profile.role[DEFAULT_LANG]}`;
 const description =
-  'Backend engineer building production-grade systems with Node.js, NestJS, TypeScript and PostgreSQL: an identity and authorization platform and a double-entry ledger, both live.';
+  'Software engineer building production systems with Node.js, NestJS, TypeScript and PostgreSQL: a multi-tenant SaaS with an AI ordering agent, an identity and authorization platform, and a double-entry ledger, all live.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -24,15 +26,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang={DEFAULT_LANG}>
       <body className="min-h-screen">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:shadow"
-        >
-          Skip to content
-        </a>
-        {children}
+        <LangProvider>
+          <SkipLink />
+          {children}
+        </LangProvider>
       </body>
     </html>
   );

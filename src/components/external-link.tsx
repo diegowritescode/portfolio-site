@@ -1,3 +1,7 @@
+'use client';
+
+import { ui } from '@/content';
+import { useLang } from '@/lang';
 import { ArrowUpRightIcon } from './icons';
 
 export function ExternalLink({
@@ -9,6 +13,7 @@ export function ExternalLink({
   children: React.ReactNode;
   variant?: 'primary' | 'quiet';
 }) {
+  const { t } = useLang();
   const styles =
     variant === 'primary'
       ? 'bg-brand text-white hover:bg-brand-strong'
@@ -22,7 +27,7 @@ export function ExternalLink({
     >
       {children}
       <ArrowUpRightIcon className="h-3.5 w-3.5 opacity-70" />
-      <span className="sr-only">(opens in a new tab)</span>
+      <span className="sr-only">({t(ui.newTab)})</span>
     </a>
   );
 }

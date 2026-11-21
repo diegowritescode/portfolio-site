@@ -1,14 +1,27 @@
-import { ExternalLink } from '@/components/external-link';
-import { GitHubIcon } from '@/components/icons';
-import { ProjectCard } from '@/components/project-card';
-import { Section } from '@/components/section';
-import { GITHUB, practices, profile, projects, roadmap, type RoadmapStatus } from '@/content';
+'use client';
 
-const nav = [
-  { href: '#work', label: 'Work' },
-  { href: '#approach', label: 'Approach' },
-  { href: '#roadmap', label: 'Roadmap' },
-];
+import {
+  contact,
+  EMAIL,
+  GITHUB,
+  LINKEDIN,
+  nav,
+  practices,
+  profile,
+  projects,
+  roadmap,
+  roadmapStatusLabel,
+  type RoadmapStatus,
+  ui,
+} from '@/content';
+import { useLang } from '@/lang';
+import { ExperienceTimeline } from '@/components/experience-timeline';
+import { Hero } from '@/components/hero';
+import { LangSwitch } from '@/components/lang-switch';
+import { MailIcon } from '@/components/icons';
+import { ProjectCard } from '@/components/project-card';
+import { Reveal } from '@/components/reveal';
+import { Section } from '@/components/section';
 
 const statusStyles: Record<RoadmapStatus, string> = {
   Live: 'bg-live-soft text-live',
@@ -16,99 +29,128 @@ const statusStyles: Record<RoadmapStatus, string> = {
   Planned: 'bg-surface-2 text-muted',
 };
 
-export default function Home() {
+const copy = {
+  workEyebrow: { en: 'Work', es: 'Proyectos' },
+  workTitle: {
+    en: 'Four systems, built to be operated',
+    es: 'Cuatro sistemas, construidos para operarse',
+  },
+  workIntro: {
+    en: 'A multi-tenant SaaS I run in production, an authorization platform, the ledger that authorizes through it, and a hackathon winner. Open them, sign in with the demo account, and read the decisions behind them.',
+    es: 'Un SaaS multi-tenant que opero en producción, una plataforma de autorización, el libro contable que autoriza a través de ella, y un ganador de hackathon. Ábrelos, entra con la cuenta de demostración y lee las decisiones detrás.',
+  },
+  expEyebrow: { en: 'Experience', es: 'Experiencia' },
+  expTitle: { en: 'Where this came from', es: 'De dónde viene esto' },
+  expIntro: {
+    en: 'Three years across a regulated bank, a marketing agency, a bootcamp that became a job, and my own company.',
+    es: 'Tres años entre un banco regulado, una agencia de marketing, un bootcamp que se volvió trabajo, y mi propia empresa.',
+  },
+  approachEyebrow: { en: 'Approach', es: 'Método' },
+  approachTitle: { en: 'How these are built', es: 'Cómo están construidos' },
+  approachIntro: {
+    en: 'The same bar applies to every project, and the repositories show the evidence.',
+    es: 'El mismo estándar aplica a cada proyecto, y los repositorios muestran la evidencia.',
+  },
+  roadmapEyebrow: { en: 'Roadmap', es: 'Ruta' },
+  roadmapTitle: { en: 'What comes next', es: 'Qué sigue' },
+  roadmapIntro: {
+    en: 'Each system reuses the foundations of the previous one.',
+    es: 'Cada sistema reutiliza los cimientos del anterior.',
+  },
+  footerNote: {
+    en: 'Static site served by nginx behind Traefik.',
+    es: 'Sitio estático servido por nginx detrás de Traefik.',
+  },
+  footerSource: { en: 'Source', es: 'Código' },
+} as const;
+
+export default function Page() {
+  const { t, lang } = useLang();
+
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-line bg-page/85 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-          <a href="#top" className="font-semibold tracking-tight">
+      <div className="sticky top-0 z-40 border-b border-line bg-page/85 backdrop-blur">
+        <nav
+          aria-label={t(nav.work)}
+          className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
+        >
+          <a href="#main" className="font-semibold tracking-tight">
             {profile.name}
           </a>
-          <nav aria-label="Sections" className="flex items-center gap-1 sm:gap-2">
-            {nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="hidden rounded-md px-2.5 py-1.5 text-sm text-muted transition-colors hover:text-fg sm:inline-block"
-              >
-                {item.label}
+          <div className="flex items-center gap-1 sm:gap-3">
+            <div className="hidden items-center gap-4 text-sm text-muted sm:flex">
+              <a href="#work" className="transition-colors hover:text-fg">
+                {t(nav.work)}
               </a>
-            ))}
-            <a
-              href={GITHUB}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-muted transition-colors hover:text-fg"
-            >
-              <GitHubIcon className="h-4 w-4" />
-              <span>GitHub</span>
-              <span className="sr-only">(opens in a new tab)</span>
-            </a>
-          </nav>
-        </div>
-      </header>
+              <a href="#experience" className="transition-colors hover:text-fg">
+                {t(nav.experience)}
+              </a>
+              <a href="#approach" className="transition-colors hover:text-fg">
+                {t(nav.approach)}
+              </a>
+              <a href="#contact" className="transition-colors hover:text-fg">
+                {t(nav.contact)}
+              </a>
+            </div>
+            <LangSwitch />
+          </div>
+        </nav>
+      </div>
+
+      <Hero />
 
       <main id="main" className="mx-auto max-w-5xl px-4 sm:px-6">
-        <section id="top" aria-labelledby="hero-title" className="pt-16 pb-10 sm:pt-24">
-          <p className="text-sm text-muted">
-            {profile.role} · {profile.location}
-          </p>
-          <h1
-            id="hero-title"
-            className="mt-4 max-w-3xl text-4xl leading-[1.1] font-semibold tracking-tight text-balance sm:text-5xl"
-          >
-            {profile.headline}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted">{profile.summary}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#work"
-              className="inline-flex items-center rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-strong"
-            >
-              See the work
-            </a>
-            <ExternalLink href={GITHUB}>GitHub profile</ExternalLink>
-          </div>
-        </section>
-
         <Section
           id="work"
-          eyebrow="Work"
-          title="Two systems, both running in production"
-          intro="Built as one spine: MiniLedger authorizes every write through AccessCore, the way a real platform grows. Open them, sign in with the demo account, and read the decisions behind them."
+          eyebrow={t(copy.workEyebrow)}
+          title={t(copy.workTitle)}
+          intro={t(copy.workIntro)}
         >
-          <div className="space-y-8">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="space-y-6">
+            {projects.map((project, i) => (
+              <Reveal key={project.id} delay={i * 0.05}>
+                <ProjectCard project={project} />
+              </Reveal>
             ))}
           </div>
         </Section>
 
         <Section
+          id="experience"
+          eyebrow={t(copy.expEyebrow)}
+          title={t(copy.expTitle)}
+          intro={t(copy.expIntro)}
+        >
+          <ExperienceTimeline />
+        </Section>
+
+        <Section
           id="approach"
-          eyebrow="Approach"
-          title="How these are built"
-          intro="The same bar applies to every project, and the repositories show the evidence."
+          eyebrow={t(copy.approachEyebrow)}
+          title={t(copy.approachTitle)}
+          intro={t(copy.approachIntro)}
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {practices.map((practice) => (
-              <div key={practice.title} className="rounded-2xl border border-line bg-surface p-6">
-                <h3 className="font-semibold tracking-tight">{practice.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">{practice.body}</p>
-              </div>
+            {practices.map((practice, i) => (
+              <Reveal key={practice.title.en} delay={i * 0.05}>
+                <div className="h-full rounded-2xl border border-line bg-surface p-6">
+                  <h3 className="font-semibold tracking-tight">{t(practice.title)}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted">{t(practice.body)}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </Section>
 
         <Section
           id="roadmap"
-          eyebrow="Roadmap"
-          title="What comes next"
-          intro="Each system reuses the foundations of the previous one."
+          eyebrow={t(copy.roadmapEyebrow)}
+          title={t(copy.roadmapTitle)}
+          intro={t(copy.roadmapIntro)}
         >
           <ol className="relative space-y-6 border-l border-line pl-6">
-            {roadmap.map((item) => (
-              <li key={item.name} className="relative">
+            {roadmap.map((item, i) => (
+              <Reveal key={item.name} as="li" delay={i * 0.04} className="relative">
                 <span
                   aria-hidden="true"
                   className={`absolute top-1.5 -left-[29px] h-2.5 w-2.5 rounded-full ring-4 ring-page ${
@@ -124,13 +166,48 @@ export default function Home() {
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusStyles[item.status]}`}
                   >
-                    {item.status}
+                    {t(roadmapStatusLabel[item.status])}
                   </span>
                 </div>
-                <p className="mt-1 text-[15px] text-muted">{item.body}</p>
-              </li>
+                <p className="mt-1 text-[15px] text-muted">{t(item.body)}</p>
+              </Reveal>
             ))}
           </ol>
+        </Section>
+
+        <Section id="contact" eyebrow={t(nav.contact)} title={t(contact.heading)}>
+          <Reveal>
+            <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+              <p className="max-w-xl text-muted">{t(contact.body)}</p>
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-strong"
+                >
+                  <MailIcon className="h-4 w-4" />
+                  {EMAIL}
+                </a>
+                <a
+                  href={LINKEDIN}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-line-strong hover:bg-surface-2"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={lang === 'es' ? '/cv/Diego-Ramirez-CV-ES.pdf' : '/cv/Diego-Ramirez-CV-EN.pdf'}
+                  download
+                  className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:border-line-strong hover:bg-surface-2"
+                >
+                  {t(ui.downloadCv)} (PDF)
+                </a>
+              </div>
+              <p className="mt-5 font-mono text-xs text-muted">
+                {t(profile.availability)} · {t(profile.location)}
+              </p>
+            </div>
+          </Reveal>
         </Section>
       </main>
 
@@ -140,14 +217,14 @@ export default function Home() {
             © {new Date().getFullYear()} {profile.name}
           </p>
           <p>
-            Static site served by nginx behind Traefik.{' '}
+            {t(copy.footerNote)}{' '}
             <a
               href={`${GITHUB}/portfolio-site`}
               target="_blank"
               rel="noopener noreferrer"
               className="underline decoration-line-strong underline-offset-4 hover:text-fg"
             >
-              Source
+              {t(copy.footerSource)}
             </a>
           </p>
         </div>
