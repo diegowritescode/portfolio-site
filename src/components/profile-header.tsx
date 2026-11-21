@@ -16,17 +16,19 @@ export function ProfileHeader() {
   return (
     <header className="px-4 pt-6 pb-2 sm:px-6 md:pt-10">
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:gap-12">
-        {/* Avatar in the gradient ring. The initials stand in for a photo:
-            no portrait, as asked, but the ring still reads as a profile. */}
+        {/* The profile picture, inside the gradient story ring. */}
         <div className="shrink-0 self-start md:mx-6">
           <div className="story-ring rounded-full p-[3px]">
             <div className="rounded-full bg-page p-[3px]">
-              <div
-                aria-hidden="true"
-                className="flex h-[88px] w-[88px] items-center justify-center rounded-full bg-surface-2 text-3xl font-semibold tracking-tight text-fg select-none md:h-[150px] md:w-[150px] md:text-5xl"
-              >
-                DR
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/media/avatar.jpg"
+                alt={profile.name}
+                width={150}
+                height={150}
+                fetchPriority="high"
+                className="h-[88px] w-[88px] rounded-full bg-surface-2 object-cover md:h-[150px] md:w-[150px]"
+              />
             </div>
           </div>
         </div>
