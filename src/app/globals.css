@@ -73,6 +73,9 @@
     color-scheme: light dark;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    /* Hold the scrollbar's width always, so pinning the body for a dialog
+       does not reflow the page sideways and shift what is behind it. */
+    scrollbar-gutter: stable;
   }
 
   @media (prefers-reduced-motion: reduce) {

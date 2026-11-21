@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import {
   experience,
   type HighlightId,
@@ -33,9 +33,13 @@ export function HighlightsRail() {
   const reduced = useReducedMotion();
   const [open, setOpen] = useState<HighlightId | null>(null);
 
+  // Holds the offset while the body is pinned. A layout effect reads it
+  // before the browser paints, so the document has not yet shortened and
+  // window.scrollY has not been clamped.
+  const scrollY = useRef(0);
   const close = useCallback(() => setOpen(null), []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (open === null) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') close();
@@ -44,6 +48,7 @@ export function HighlightsRail() {
 
     // Pin the body at its current offset so the page behind stays put.
     const y = window.scrollY;
+    scrollY.current = y;
     const { body } = document;
     const prev = {
       position: body.style.position,
@@ -62,7 +67,7 @@ export function HighlightsRail() {
       body.style.top = prev.top;
       body.style.width = prev.width;
       body.style.overflow = prev.overflow;
-      window.scrollTo(0, y);
+      window.scrollTo(0, scrollY.current);
     };
   }, [close, open]);
 
