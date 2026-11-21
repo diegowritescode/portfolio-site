@@ -1,34 +1,32 @@
 @import 'tailwindcss';
 
 /*
-  Dark-first terminal system. Light mode exists for anyone who forces it,
-  but the site is designed black: the hero, the grid and the glow all
-  assume a near-black page.
+  An Instagram-shaped profile. Light by default, dark on request, with the
+  theme chosen by the visitor and remembered. Surfaces are near-white or
+  near-black, the lines are hairlines, and one blue carries every action.
 */
 @theme {
-  --color-page: #12161d;
-  --color-surface: #1a1f28;
-  --color-surface-2: #222833;
-  --color-line: #2f3845;
-  --color-line-strong: #44505f;
-  --color-muted: #94a1b2;
-  --color-fg: #eef2f7;
-  --color-fg-dim: #c2ccd8;
+  --color-page: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-2: #fafafa;
+  --color-line: #dbdbdb;
+  --color-line-strong: #c7c7c7;
+  --color-fg: #0a0a0a;
+  --color-fg-dim: #404040;
+  --color-muted: #737373;
 
-  /* One accent carries the whole site: signal cyan. */
-  --color-brand: #4ae3c4;
-  --color-brand-strong: #6cf0d6;
-  --color-brand-dim: #1d7a68;
-  --color-brand-soft: #0e3b33;
+  /* The single action colour, Instagram's link blue. */
+  --color-brand: #0095f6;
+  --color-brand-strong: #1877f2;
+  --color-brand-soft: #e7f3ff;
 
-  /* Secondary, used only for awards and the "next" state. */
-  --color-amber: #f0b429;
-  --color-amber-soft: #352811;
+  /* The story ring, used on the avatar and the highlight circles. */
+  --ring-from: #f9ce34;
+  --ring-via: #ee2a7b;
+  --ring-to: #6228d7;
 
-  --color-live: #4ae3c4;
-  --color-live-soft: #0e3b33;
-  --color-next: #f0b429;
-  --color-next-soft: #352811;
+  --color-live: #22c55e;
+  --color-award: #f59e0b;
 
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -36,11 +34,45 @@
     var(--font-jetbrains), ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }
 
+/*
+  Dark mode. `data-theme` on <html> wins over the system preference, so the
+  switch works both ways: the media query only applies when nothing is set.
+*/
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-page: #000000;
+    --color-surface: #000000;
+    --color-surface-2: #121212;
+    --color-line: #262626;
+    --color-line-strong: #363636;
+    --color-fg: #fafafa;
+    --color-fg-dim: #d4d4d4;
+    --color-muted: #a8a8a8;
+    --color-brand: #0095f6;
+    --color-brand-strong: #4db5ff;
+    --color-brand-soft: #0d2b40;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-page: #000000;
+  --color-surface: #000000;
+  --color-surface-2: #121212;
+  --color-line: #262626;
+  --color-line-strong: #363636;
+  --color-fg: #fafafa;
+  --color-fg-dim: #d4d4d4;
+  --color-muted: #a8a8a8;
+  --color-brand: #0095f6;
+  --color-brand-strong: #4db5ff;
+  --color-brand-soft: #0d2b40;
+}
+
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light dark;
     scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem;
+    scroll-padding-top: 5rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -57,99 +89,65 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* The grid that sits under everything: 1px lines, barely there. */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(to right, var(--color-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
-    background-size: 64px 64px;
-    opacity: 0.5;
-    mask-image: radial-gradient(ellipse 120% 80% at 50% 0%, black, transparent 75%);
-  }
-
   ::selection {
     background-color: var(--color-brand);
-    color: var(--color-page);
+    color: #ffffff;
   }
 
   *:focus-visible {
     outline: 2px solid var(--color-brand);
-    outline-offset: 3px;
-    border-radius: 2px;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
 @layer components {
-  /* A label that reads as a shell prompt: $ work */
-  .prompt::before {
-    content: '$ ';
-    color: var(--color-brand);
+  /* The gradient ring Instagram puts around an unseen story. */
+  .story-ring {
+    background: linear-gradient(45deg, var(--ring-from), var(--ring-via), var(--ring-to));
   }
 
-  /* Neon text, used only on the few things that earn it. */
-  .glow {
-    text-shadow:
-      0 0 18px color-mix(in oklab, var(--color-brand) 45%, transparent),
-      0 0 46px color-mix(in oklab, var(--color-brand) 18%, transparent);
+  /* A square tile that keeps its ratio however the grid is sized. */
+  .tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--color-surface-2);
   }
 
-  .glow-box {
-    box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--color-brand) 30%, transparent),
-      0 0 24px -6px color-mix(in oklab, var(--color-brand) 40%, transparent);
+  /* The hover plate that carries the tile's numbers, as the like and
+     comment counts do on a real profile. */
+  .tile-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    opacity: 0;
+    background-color: color-mix(in srgb, #000 55%, transparent);
+    color: #fff;
+    transition: opacity 180ms ease;
   }
 
-  /* A panel with a terminal title bar. */
-  .panel {
-    border: 1px solid var(--color-line);
-    background-color: color-mix(in oklab, var(--color-surface) 80%, transparent);
-    backdrop-filter: blur(6px);
-  }
-
-  .panel:hover {
-    border-color: var(--color-line-strong);
-  }
-
-  /* The blinking block cursor after the headline. */
-  .caret::after {
-    content: '';
-    display: inline-block;
-    width: 0.56ch;
-    height: 1em;
-    margin-left: 0.18em;
-    translate: 0 0.1em;
-    background-color: var(--color-brand);
-    animation: blink 1.15s step-end infinite;
+  .tile:hover .tile-overlay,
+  .tile:focus-within .tile-overlay {
+    opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .caret::after {
-      animation: none;
+    .tile-overlay {
+      transition: none;
     }
   }
-}
 
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
+  /* Hide the scrollbar on the highlights rail without losing the scroll. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  50% {
-    opacity: 0;
-  }
-}
 
-/* Horizontal scan sweep on the hero, slow enough to read as atmosphere. */
-@keyframes scan {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }

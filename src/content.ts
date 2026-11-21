@@ -14,6 +14,8 @@ export type I18nList = Readonly<Record<Lang, readonly string[]>>;
 
 export const profile = {
   name: 'Diego Ramírez',
+  /** The profile handle, as a username would read on a real profile. */
+  handle: 'diegowritescode',
   location: { en: 'Medellín, Colombia', es: 'Medellín, Colombia' },
   role: {
     en: 'Software engineer',
@@ -40,6 +42,25 @@ export const profile = {
     en: 'Open to remote and hybrid roles',
     es: 'Disponible para roles remotos e híbridos',
   },
+  /** The bio, as the few stacked lines a profile shows under the name. */
+  bio: {
+    en: [
+      'Backend and full stack. Node.js, NestJS, TypeScript, PostgreSQL.',
+      'A regulated bank, a multi-tenant SaaS I run alone, products that shipped.',
+      'AI inside the product, and agents inside how I build it.',
+    ],
+    es: [
+      'Backend y full stack. Node.js, NestJS, TypeScript, PostgreSQL.',
+      'Un banco regulado, un SaaS multi-tenant que opero solo, productos que salieron.',
+      'IA dentro del producto, y agentes dentro de cómo lo construyo.',
+    ],
+  },
+  /** The three counters in the profile header. */
+  counts: [
+    { value: '5', label: { en: 'projects', es: 'proyectos' } },
+    { value: '4', label: { en: 'roles', es: 'roles' } },
+    { value: '120+', label: { en: 'decision records', es: 'decisiones' } },
+  ],
 } as const;
 
 export const nav = {
@@ -70,13 +91,76 @@ export const ui = {
   langSwitch: { en: 'Español', es: 'English' },
   langSwitchLabel: { en: 'Cambiar a español', es: 'Switch to English' },
   present: { en: 'Present', es: 'Actualidad' },
-  heroCaption: {
-    en: 'Each node is a tenant. The highlighted path is one authorization resolving: relationships first, then roles, then conditions.',
-    es: 'Cada nodo es un cliente. El camino resaltado es una autorización resolviéndose: primero relaciones, luego roles, luego condiciones.',
-  },
-  heroPause: { en: 'Pause animation', es: 'Pausar animación' },
-  heroPlay: { en: 'Play animation', es: 'Reproducir animación' },
+
+  /* ── Profile chrome ─────────────────────────────────────────────── */
+  followLabel: { en: 'Hire me', es: 'Contrátame' },
+  messageLabel: { en: 'Message', es: 'Mensaje' },
+  verifiedLabel: { en: 'Verified', es: 'Verificado' },
+  themeToDark: { en: 'Switch to dark mode', es: 'Cambiar a modo oscuro' },
+  themeToLight: { en: 'Switch to light mode', es: 'Cambiar a modo claro' },
+  tabProjects: { en: 'Projects', es: 'Proyectos' },
+  tabExperience: { en: 'Experience', es: 'Experiencia' },
+  tabAbout: { en: 'About', es: 'Sobre mí' },
+  highlightsLabel: { en: 'Highlights', es: 'Destacadas' },
+  closeLabel: { en: 'Close', es: 'Cerrar' },
+  openProject: { en: 'Open project', es: 'Abrir proyecto' },
+  metricsLabel: { en: 'Key numbers', es: 'Cifras clave' },
+  awardLabel: { en: 'Award', es: 'Premio' },
 } as const;
+
+/** The story highlights: each circle opens a panel of existing content. */
+export type HighlightId = 'stack' | 'approach' | 'experience' | 'awards' | 'cv';
+
+export const highlights: readonly {
+  readonly id: HighlightId;
+  readonly label: I18n;
+  readonly glyph: string;
+}[] = [
+  { id: 'stack', label: { en: 'Stack', es: 'Stack' }, glyph: '⬡' },
+  { id: 'approach', label: { en: 'Approach', es: 'Método' }, glyph: '◈' },
+  { id: 'experience', label: { en: 'Work', es: 'Trabajo' }, glyph: '▤' },
+  { id: 'awards', label: { en: 'Awards', es: 'Premios' }, glyph: '★' },
+  { id: 'cv', label: { en: 'CV', es: 'CV' }, glyph: '↓' },
+];
+
+/** The stack, grouped the way the highlight panel shows it. */
+export const stackGroups: readonly {
+  readonly title: I18n;
+  readonly items: readonly string[];
+}[] = [
+  {
+    title: { en: 'Languages', es: 'Lenguajes' },
+    items: ['TypeScript', 'JavaScript', 'Java', 'C#', 'Python', 'SQL'],
+  },
+  {
+    title: { en: 'Backend', es: 'Backend' },
+    items: ['Node.js', 'NestJS', 'Express', 'Spring Boot', '.NET', 'REST', 'OAuth 2.0'],
+  },
+  {
+    title: { en: 'Frontend', es: 'Frontend' },
+    items: ['React', 'Next.js', 'Vite', 'Tailwind CSS'],
+  },
+  {
+    title: { en: 'Data', es: 'Datos' },
+    items: ['PostgreSQL', 'pgvector', 'MySQL', 'DB2/AS400', 'Redis', 'Drizzle'],
+  },
+  {
+    title: { en: 'AI in the product', es: 'IA en el producto' },
+    items: ['OpenAI API', 'Anthropic API', 'RAG', 'pgvector', 'Schema validation'],
+  },
+  {
+    title: { en: 'AI in how I build', es: 'IA en cómo construyo' },
+    items: ['Claude Code', 'Codex CLI', 'Custom MCP servers', 'Subagents', 'Hooks'],
+  },
+  {
+    title: { en: 'Infrastructure', es: 'Infraestructura' },
+    items: ['Docker', 'Traefik', 'GitHub Actions', 'Vault', 'Prometheus', 'Grafana'],
+  },
+  {
+    title: { en: 'Quality', es: 'Calidad' },
+    items: ['Playwright', 'Jest', 'Vitest', 'fast-check', 'Selenium', 'SonarQube', 'k6'],
+  },
+];
 
 export interface ProjectLink {
   readonly label: I18n;

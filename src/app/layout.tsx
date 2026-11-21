@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { DEFAULT_LANG, profile, SITE_URL } from '@/content';
 import { LangProvider } from '@/lang';
+import { ThemeProvider, THEME_SCRIPT } from '@/theme';
 import { SkipLink } from '@/components/skip-link';
 import './globals.css';
 
@@ -23,18 +24,25 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { color: '#12161d' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={DEFAULT_LANG} className={`${sans.variable} ${mono.variable}`}>
+    <html lang={DEFAULT_LANG} className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Sets the theme before first paint, so there is no flash. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-screen">
-        <LangProvider>
-          <SkipLink />
-          {children}
-        </LangProvider>
+        <ThemeProvider>
+          <LangProvider>
+            <SkipLink />
+            {children}
+          </LangProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
